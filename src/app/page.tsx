@@ -1,4 +1,7 @@
 import Card from "@/ui/card";
+import { metadata } from "@/data/metadata";
+
+export { metadata };
 
 export default function Home() {
   return (
