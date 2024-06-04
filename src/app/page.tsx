@@ -5,7 +5,7 @@ export { metadata };
 
 export default function Home() {
   return (
-    <main className="grid grid-cols-4 gap-x-7 gap-y-4 p-4">
+    <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4 p-4">
       <Card />
       <Card />
       <Card />
