@@ -12,10 +12,9 @@ export default function Modal({ setIsModalOpen }: any) {
         className="fixed inset-0 bg-slate-600 opacity-30"
         onClick={() => setIsModalOpen(false)}
       ></div>
-      <div className="relative bg-yellow-300 p-6 rounded shadow-lg z-10">
+      <div className="relative bg-white p-6 rounded shadow-lg z-10">
         <h2>Modal Title</h2>
         <p>Modal Content</p>
-        <button onClick={() => setIsModalOpen(false)}>Close Modal</button>
       </div>
     </motion.div>
   );
