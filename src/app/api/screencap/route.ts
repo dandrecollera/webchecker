@@ -1,5 +1,28 @@
 import puppeteer from "puppeteer";
 import { NextRequest, NextResponse } from "next/server";
+import mysql from 'mysql2/promise';
+
+
+async function InsertToDB(fileName: string) {
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+  })
+
+  try {
+    const sql = 'INSERT INTO `images` (name) VALUES (?)';
+
+    const [result, fields] = await connection.query(sql, [fileName]);
+
+    console.log(result);
+    console.log(fields);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export async function GET(request: NextRequest) {
   const urlParams = request.nextUrl.searchParams;
@@ -27,18 +50,12 @@ export async function GET(request: NextRequest) {
     await page.screenshot({ path: `./public/screencaps/${fileName}` })
     await browser.close();
 
+
+    await InsertToDB(fileName);
+
     return NextResponse.json({ message: 'Screenshot Captured', url, fileName });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to capture screenshot' }, { status: 500 });
   }
-
-
-
-
-
-
-
-  return new Response(`Captured Image URL: ${url}`);
-
 }
