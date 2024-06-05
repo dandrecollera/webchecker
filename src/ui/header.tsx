@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { MouseEventHandler } from "react";
 
-export default function Header({ onOpenModal }: any) {
+export default function Header({ onOpenModal }: { onOpenModal: MouseEventHandler }) {
   return (
     <header className="bg-white shadow p-4 px-5 flex gap-x-5 items-center mb-3 text-black">
       <div className="text-xl">

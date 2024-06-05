@@ -1,6 +1,12 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
-export default function Modal({ setIsModalOpen }: any) {
+export default function Modal({
+  setIsModalOpen,
+  content,
+}: {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  content: React.ReactNode;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -12,10 +18,7 @@ export default function Modal({ setIsModalOpen }: any) {
         className="fixed inset-0 bg-slate-600 opacity-30"
         onClick={() => setIsModalOpen(false)}
       ></div>
-      <div className="relative bg-white p-6 rounded shadow-lg z-10">
-        <h2>Modal Title</h2>
-        <p>Modal Content</p>
-      </div>
+      <div className="relative bg-white p-6 rounded shadow-lg z-10">{content}</div>
     </motion.div>
   );
 }
