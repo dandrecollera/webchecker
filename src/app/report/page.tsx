@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main>
-      <div>Test</div>
+      <div>Report</div>
     </main>
   );
 }

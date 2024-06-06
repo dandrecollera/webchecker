@@ -12,11 +12,16 @@ async function ImageTable() {
     const [rows] = await connection.query("SHOW TABLES LIKE 'images'");
     if (Array.isArray(rows) && rows.length > 0) {
       console.log("'images' table already exists.");
-    } else {
+      const dropTableQuery = `
+        DROP TABLE images
+      `;
+      await connection.query(dropTableQuery);
+
       const createTableQuery = `
         CREATE TABLE images (
           id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(255) NOT NULL
+          name VARCHAR(255) NOT NULL,
+          filename VARCHAR(255) NOT NULL
         )
       `;
       await connection.query(createTableQuery);
