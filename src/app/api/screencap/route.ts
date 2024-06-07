@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import { NextRequest, NextResponse } from "next/server";
 import mysql from 'mysql2/promise';
 
-async function InsertToDB(fileName: string, url: string) {
+async function InsertToDB(fileName: string, title: string, url: string) {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -11,8 +11,8 @@ async function InsertToDB(fileName: string, url: string) {
   });
 
   try {
-    const sql = 'INSERT INTO `images` (name, filename) VALUES (?, ?)';
-    const [result, fields] = await connection.query(sql, [url, fileName]);
+    const sql = 'INSERT INTO `images` (title, filename, url) VALUES (?, ?, ?)';
+    const [result, fields] = await connection.query(sql, [title, fileName, url]);
     console.log(result);
     console.log(fields);
   } catch (error) {
@@ -23,7 +23,7 @@ async function InsertToDB(fileName: string, url: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const { url } = await request.json();
+  const { url, title } = await request.json();
 
   if (!url) {
     return NextResponse.json({ error: "URL is required" }, { status: 400 });
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     await page.screenshot({ path: `./public/screencaps/${fileName}` });
     await browser.close();
 
-    await InsertToDB(fileName, url);
+    await InsertToDB(fileName, title, url);
 
     return NextResponse.json({ message: 'Screenshot Captured', url, fileName });
   } catch (error) {

@@ -1,7 +1,8 @@
 import { useState } from "react";
-
+import Input from "@/ui/input";
 export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
   const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -13,7 +14,7 @@ export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ url }),
+          body: JSON.stringify({ url, title }),
         });
 
         const data = await response.json();
@@ -34,8 +35,15 @@ export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-6">
+        <Input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter Title"
+          required
+        />
+        <Input
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
