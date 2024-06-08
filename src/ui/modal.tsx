@@ -4,10 +4,12 @@ export default function Modal({
   setIsModalOpen,
   content,
   title,
+  loading,
 }: {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   content: React.ReactNode;
   title: string;
+  loading: boolean;
 }) {
   return (
     <motion.div
@@ -18,7 +20,7 @@ export default function Modal({
     >
       <div
         className="fixed inset-0 bg-slate-600 opacity-30"
-        onClick={() => setIsModalOpen(false)}
+        onClick={!loading ? () => setIsModalOpen(false) : undefined}
       ></div>
       <div className="relative bg-white rounded-2xl shadow-lg z-10 w-4/12">
         <h1 className="p-4 text-2xl">{title}</h1>

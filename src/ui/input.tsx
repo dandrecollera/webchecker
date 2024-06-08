@@ -6,9 +6,17 @@ interface InputProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
   required?: boolean;
   placeholder?: string;
+  readonly?: boolean;
 }
 
-export default function Input({ type, value, onChange, required, placeholder }: InputProps) {
+export default function Input({
+  type,
+  value,
+  onChange,
+  required,
+  placeholder,
+  readonly,
+}: InputProps) {
   return (
     <motion.input
       whileFocus={{ outline: "2px solid rgb(59 130 246)", color: "#000000" }}
@@ -19,6 +27,7 @@ export default function Input({ type, value, onChange, required, placeholder }: 
       onChange={onChange}
       placeholder={placeholder}
       required={required}
+      readOnly={readonly}
       className="rounded-md p-2"
     ></motion.input>
   );

@@ -1,13 +1,25 @@
 import { useState } from "react";
 import Input from "@/ui/input";
-export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
+export default function AddWebsite({
+  closeModal,
+  loading,
+  endLoading,
+}: {
+  closeModal: () => void;
+  loading: () => void;
+  endLoading: () => void;
+}) {
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (url) {
+      setDisabled(true);
+      loading();
+      setMessage("Loading...");
       try {
         const response = await fetch(`/api/screencap`, {
           method: "POST",
@@ -22,12 +34,15 @@ export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
           setMessage(`Screenshot captured! File: ${data.fileName}`);
           setTimeout(() => {
             setMessage("");
+            endLoading();
             closeModal();
-          }, 1000);
+          }, 2000);
         } else {
+          endLoading();
           setMessage(`Error: ${data.error}`);
         }
       } catch (error) {
+        endLoading();
         setMessage(`Error: ${(error as Error).message}`);
       }
     }
@@ -42,6 +57,7 @@ export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter Title"
           required
+          readonly={disabled}
         />
         <Input
           type="url"
@@ -49,8 +65,11 @@ export default function AddWebsite({ closeModal }: { closeModal: () => void }) {
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter URL"
           required
+          readonly={disabled}
         />
-        <button type="submit">Test</button>
+        <button type="submit" disabled={disabled}>
+          Test
+        </button>
       </form>
       {message && <p>{message}</p>}
     </div>

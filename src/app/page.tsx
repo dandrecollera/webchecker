@@ -16,12 +16,12 @@ interface Sites {
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sitesURL, setSitesURL] = useState<Sites[]>([]);
+  const [loading, setLoading] = useState(false);
 
   async function fetchSites() {
     try {
       const response = await fetch("/api/sites");
       const data: Sites[] = await response.json();
-      console.log(data);
       setSitesURL(data);
     } catch (error) {
       console.error(`Failed to fetch sites: ${error}`);
@@ -33,12 +33,20 @@ export default function Home() {
   }, []);
 
   const closeModal = () => {
-    setIsModalOpen(false);
     fetchSites();
+    setIsModalOpen(false);
   };
 
   const openModal = () => {
     setIsModalOpen(true);
+  };
+
+  const startLoading = () => {
+    setLoading(true);
+  };
+
+  const endLoading = () => {
+    setLoading(false);
   };
 
   return (
@@ -68,8 +76,11 @@ export default function Home() {
         {isModalOpen && (
           <Modal
             setIsModalOpen={setIsModalOpen}
-            content={<AddWebsite closeModal={closeModal} />}
+            content={
+              <AddWebsite closeModal={closeModal} loading={startLoading} endLoading={endLoading} />
+            }
             title="Add Website"
+            loading={loading}
           />
         )}
       </AnimatePresence>

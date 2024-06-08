@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import mysql, { RowDataPacket } from "mysql2/promise";
 
 interface Sites extends RowDataPacket {
@@ -7,7 +7,7 @@ interface Sites extends RowDataPacket {
   filename: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const sql = `SELECT * FROM ${table}`;
 
   try {
-    const [rows, fields] = await connection.query<Sites[]>(sql);
+    const [rows] = await connection.query<Sites[]>(sql);
     return NextResponse.json(rows);
   } catch (error) {
     return NextResponse.json({ error: "URL is required" }, { status: 400 });

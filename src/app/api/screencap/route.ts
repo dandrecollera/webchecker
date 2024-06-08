@@ -12,9 +12,7 @@ async function InsertToDB(fileName: string, title: string, url: string) {
 
   try {
     const sql = 'INSERT INTO `images` (title, filename, url) VALUES (?, ?, ?)';
-    const [result, fields] = await connection.query(sql, [title, fileName, url]);
-    console.log(result);
-    console.log(fields);
+    await connection.query(sql, [title, fileName, url]);
   } catch (error) {
     console.log(error);
   } finally {
