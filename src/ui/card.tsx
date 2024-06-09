@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaWordpress, FaImage, FaEraser, FaCircle } from "react-icons/fa6";
+import DropDown from "@/ui/dropdown";
 
 export default function Card({
   filename,
@@ -16,7 +17,7 @@ export default function Card({
   wordpress: boolean;
 }) {
   return (
-    <div className=" bg-white border rounded-md overflow-hidden shadow-sm">
+    <div className="relative bg-white border rounded-md overflow-hidden shadow-sm">
       <Image src={`/screencaps/${filename}`} width={600} height={300} alt="test image" />
       <div className="p-3">
         <h1 className="text-2xl font-bold">{title}</h1>
@@ -31,6 +32,11 @@ export default function Card({
         </div>
       </div>
       <div className="bg-green-600 border border-green-600 z-10 p-2 px-3 text-white">Active</div>
+      <div className="absolute z-100 right-0 top-0">
+        <button className="p-2">
+          <DropDown />
+        </button>
+      </div>
     </div>
   );
 }
