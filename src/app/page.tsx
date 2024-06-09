@@ -69,6 +69,7 @@ export default function Home() {
               title={site.title}
               url={site.url}
               wordpress={site.wordpress}
+              fetchData={fetchSites}
             />
           ))}
         </main>

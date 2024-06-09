@@ -9,12 +9,14 @@ export default function Card({
   id,
   url,
   wordpress,
+  fetchData,
 }: {
   filename: string;
   title: string;
   id: number;
   url: string;
   wordpress: boolean;
+  fetchData: () => void;
 }) {
   return (
     <div className="relative bg-white border rounded-md overflow-hidden shadow-sm">
@@ -34,7 +36,7 @@ export default function Card({
       <div className="bg-green-600 border border-green-600 z-10 p-2 px-3 text-white">Active</div>
       <div className="absolute z-100 right-0 top-0">
         <button className="p-2">
-          <DropDown />
+          <DropDown id={id} fetchData={fetchData} />
         </button>
       </div>
     </div>
