@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import { NextRequest, NextResponse } from "next/server";
 import mysql from 'mysql2/promise';
 
-async function InsertToDB(fileName: string, title: string, url: string) {
+async function InsertToDB(fileName: string, title: string, url: string, isWordPress: boolean) {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -11,8 +11,8 @@ async function InsertToDB(fileName: string, title: string, url: string) {
   });
 
   try {
-    const sql = 'INSERT INTO `images` (title, filename, url) VALUES (?, ?, ?)';
-    await connection.query(sql, [title, fileName, url]);
+    const sql = 'INSERT INTO `images` (title, filename, url, wordpress) VALUES (?, ?, ?, ?)';
+    await connection.query(sql, [title, fileName, url, isWordPress]);
   } catch (error) {
     console.log(error);
   } finally {
@@ -45,7 +45,20 @@ export async function POST(request: NextRequest) {
     await page.screenshot({ path: `./public/screencaps/${fileName}` });
     await browser.close();
 
-    await InsertToDB(fileName, title, url);
+
+    const wpLoginUrl = `${url}/wp-login.php`;
+    let isWordPress = false;
+
+    try {
+      const response = await fetch(wpLoginUrl, { method: 'HEAD' });
+      if (response.status === 200) {
+        isWordPress = true;
+      }
+    } catch (error) {
+      console.log('Error checking WordPress:', error)
+    }
+
+    await InsertToDB(fileName, title, url, isWordPress);
 
     return NextResponse.json({ message: 'Screenshot Captured', url, fileName });
   } catch (error) {

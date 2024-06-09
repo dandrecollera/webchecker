@@ -28,7 +28,8 @@ async function ImageTable() {
           id INT AUTO_INCREMENT PRIMARY KEY,
           title VARCHAR(255) NOT NULL,
           filename VARCHAR(255) NOT NULL,
-          url VARCHAR(255) NOT NULL
+          url VARCHAR(255) NOT NULL,
+          wordpress BOOL DEFAULT false NOT NULL
         )
       `;
       await connection.query(createTableQuery);

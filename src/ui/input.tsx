@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import { easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 interface InputProps {
   type: string;
   value: string;

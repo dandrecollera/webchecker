@@ -11,6 +11,7 @@ interface Sites {
   title: string;
   filename: string;
   url: string;
+  wordpress: boolean;
 }
 
 export default function Home() {
@@ -67,6 +68,7 @@ export default function Home() {
               filename={site.filename}
               title={site.title}
               url={site.url}
+              wordpress={site.wordpress}
             />
           ))}
         </main>
