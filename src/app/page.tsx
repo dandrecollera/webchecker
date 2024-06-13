@@ -3,8 +3,9 @@
 import Card from "@/ui/card";
 import Modal from "@/ui/modal";
 import AddWebsite from "@/forms/addWebsite";
+import DeleteWebsite from "@/forms/deleteWebsite";
 import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { ModalProvider, useModal } from "@/context/modalcontext";
 
 interface Sites {
   id: number;
@@ -14,10 +15,17 @@ interface Sites {
   wordpress: boolean;
 }
 
-export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function HomeContent() {
   const [sitesURL, setSitesURL] = useState<Sites[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { openModal } = useModal();
+
+  function handleAddWebsite() {
+    openModal(<AddWebsite fetchData={fetchSites} />, "Add Website");
+  }
+
+  function handleDeleteWebsite(id: number) {
+    openModal(<DeleteWebsite id={id} fetchData={fetchSites} />, "Delete Website");
+  }
 
   async function fetchSites() {
     try {
@@ -33,60 +41,38 @@ export default function Home() {
     fetchSites();
   }, []);
 
-  const closeModal = () => {
-    fetchSites();
-    setIsModalOpen(false);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const startLoading = () => {
-    setLoading(true);
-  };
-
-  const endLoading = () => {
-    setLoading(false);
-  };
-
   return (
-    <>
-      <div className="p-4">
-        <button
-          type="button"
-          onClick={openModal}
-          className="bg-blue-500 rounded-lg text-white p-2 px-4 mb-2"
-        >
-          Add Website
-        </button>
-        <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
-          {sitesURL.map((site) => (
-            <Card
-              key={site.id}
-              id={site.id}
-              filename={site.filename}
-              title={site.title}
-              url={site.url}
-              wordpress={site.wordpress}
-              fetchData={fetchSites}
-            />
-          ))}
-        </main>
-      </div>
-
-      <AnimatePresence>
-        {isModalOpen && (
-          <Modal
-            setIsModalOpen={setIsModalOpen}
-            content={
-              <AddWebsite closeModal={closeModal} loading={startLoading} endLoading={endLoading} />
-            }
-            title="Add Website"
-            loading={loading}
+    <div className="p-4">
+      <button
+        type="button"
+        onClick={handleAddWebsite}
+        className="bg-blue-500 rounded-lg text-white p-2 px-4 mb-2"
+      >
+        Add Website
+      </button>
+      <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
+        {sitesURL.map((site) => (
+          <Card
+            key={site.id}
+            id={site.id}
+            filename={site.filename}
+            title={site.title}
+            url={site.url}
+            wordpress={site.wordpress}
+            fetchData={fetchSites}
+            deleteHandler={() => handleDeleteWebsite(site.id)}
           />
-        )}
-      </AnimatePresence>
-    </>
+        ))}
+      </main>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <ModalProvider>
+      <HomeContent />
+      <Modal />
+    </ModalProvider>
   );
 }

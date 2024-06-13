@@ -1,24 +1,20 @@
 import { useState } from "react";
 import Input from "@/ui/input";
-export default function AddWebsite({
-  closeModal,
-  loading,
-  endLoading,
-}: {
-  closeModal: () => void;
-  loading: () => void;
-  endLoading: () => void;
-}) {
+import { useModal } from "@/context/modalcontext";
+
+export default function AddWebsite({ fetchData }: { fetchData: () => void }) {
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
 
+  const { setLoading, closeModal } = useModal();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (url) {
       setDisabled(true);
-      loading();
+      setLoading(true);
       setMessage("Loading...");
       try {
         const response = await fetch(`/api/screencap`, {
@@ -34,15 +30,16 @@ export default function AddWebsite({
           setMessage(`Screenshot captured! File: ${data.fileName}`);
           setTimeout(() => {
             setMessage("");
-            endLoading();
+            setLoading(false);
+            fetchData();
             closeModal();
           }, 2000);
         } else {
-          endLoading();
+          setLoading(false);
           setMessage(`Error: ${data.error}`);
         }
       } catch (error) {
-        endLoading();
+        setLoading(false);
         setMessage(`Error: ${(error as Error).message}`);
       }
     }
@@ -71,7 +68,7 @@ export default function AddWebsite({
           Test
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {/* {message && <p>{message}</p>} */}
     </div>
   );
 }

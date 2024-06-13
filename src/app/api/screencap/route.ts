@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
     const page = await browser.newPage();
     await page.setViewport({ width: 1366, height: 768 });
     await page.goto(url, { waitUntil: "networkidle2" });
-
     let time = new Date().getTime().toString();
     let fileName = time + '.png';
 

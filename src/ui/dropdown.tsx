@@ -2,7 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { AnimatePresence, easeInOut, motion } from "framer-motion";
 
-export default function DropDown({ id, fetchData }: { id: number; fetchData: () => void }) {
+export default function DropDown({
+  id,
+  fetchData,
+  deleteHandler,
+}: {
+  id: number;
+  fetchData: () => void;
+  deleteHandler: () => void;
+}) {
   const [dropped, setDropped] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +55,7 @@ export default function DropDown({ id, fetchData }: { id: number; fetchData: () 
     <div ref={dropdownRef}>
       <button
         onClick={() => setDropped(!dropped)}
-        className="p-2 border border-gray-200 shadow rounded-full mb-2 text-xl"
+        className="p-2 border border-gray-200 bg-white shadow rounded-full mb-2 text-xl"
       >
         <BsThreeDots />
       </button>
@@ -74,7 +82,7 @@ export default function DropDown({ id, fetchData }: { id: number; fetchData: () 
                 whileHover={{ backgroundColor: "rgb(245 245 245)" }}
                 transition={{ ease: "easeIn" }}
                 className="py-2 px-3 rounded-b-2xl"
-                onClick={handleDelete}
+                onClick={deleteHandler}
               >
                 Delete
               </motion.li>

@@ -20,8 +20,8 @@ export async function GET() {
 
   try {
     const [rows] = await connection.query<Sites[]>(sql);
-    return NextResponse.json(rows);
+    return NextResponse.json(rows); 
   } catch (error) {
     return NextResponse.json({ error: "URL is required" }, { status: 400 });
   }
-}
+} 
