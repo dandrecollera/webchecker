@@ -16,12 +16,16 @@ export async function GET() {
   });
 
   const table = '`images`';
-  const sql = `SELECT * FROM ${table}`;
+  const idsql = '`id`';
+  const sql = `SELECT * FROM ${table}  
+              ORDER BY ${idsql} ASC`;
 
   try {
     const [rows] = await connection.query<Sites[]>(sql);
-    return NextResponse.json(rows); 
+    await connection.end();
+    return NextResponse.json(rows);
   } catch (error) {
+    await connection.end();
     return NextResponse.json({ error: "URL is required" }, { status: 400 });
   }
 } 

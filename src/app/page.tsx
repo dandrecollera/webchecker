@@ -7,6 +7,7 @@ import DeleteWebsite from "@/forms/deleteWebsite";
 import EditWebsite from "@/forms/editWebsite";
 import { useState, useEffect } from "react";
 import { ModalProvider, useModal } from "@/context/modalcontext";
+import { AnimatePresence } from "framer-motion";
 
 interface Sites {
   id: number;
@@ -59,19 +60,21 @@ function HomeContent() {
         Add Website
       </button>
       <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
-        {sitesURL.map((site) => (
-          <Card
-            key={site.id}
-            id={site.id}
-            filename={site.filename}
-            title={site.title}
-            url={site.url}
-            wordpress={site.wordpress}
-            fetchData={fetchSites}
-            deleteHandler={() => handleDeleteWebsite(site.id)}
-            editHandler={() => handleEditWebsite(site.id, site.url, site.title)}
-          />
-        ))}
+        <AnimatePresence mode="sync">
+          {sitesURL.map((site) => (
+            <Card
+              key={site.id}
+              id={site.id}
+              filename={site.filename}
+              title={site.title}
+              url={site.url}
+              wordpress={site.wordpress}
+              fetchData={fetchSites}
+              deleteHandler={() => handleDeleteWebsite(site.id)}
+              editHandler={() => handleEditWebsite(site.id, site.url, site.title)}
+            />
+          ))}
+        </AnimatePresence>
       </main>
     </div>
   );

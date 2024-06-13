@@ -2,14 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaWordpress, FaImage, FaEraser, FaCircle } from "react-icons/fa6";
 import DropDown from "@/ui/dropdown";
+import { motion } from "framer-motion";
 
 export default function Card({
   filename,
   title,
-  id,
   url,
   wordpress,
-  fetchData,
   deleteHandler,
   editHandler,
 }: {
@@ -23,7 +22,13 @@ export default function Card({
   editHandler: () => void;
 }) {
   return (
-    <div className="relative bg-white border rounded-md overflow-hidden shadow-sm">
+    <motion.div
+      className="relative bg-white border rounded-md overflow-hidden shadow-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      layout
+    >
       <Image
         src={`/screencaps/${filename}`}
         width={600}
@@ -55,6 +60,6 @@ export default function Card({
           <DropDown deleteHandler={deleteHandler} editHandler={editHandler} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
