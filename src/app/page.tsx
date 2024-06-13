@@ -4,6 +4,7 @@ import Card from "@/ui/card";
 import Modal from "@/ui/modal";
 import AddWebsite from "@/forms/addWebsite";
 import DeleteWebsite from "@/forms/deleteWebsite";
+import EditWebsite from "@/forms/editWebsite";
 import { useState, useEffect } from "react";
 import { ModalProvider, useModal } from "@/context/modalcontext";
 
@@ -25,6 +26,13 @@ function HomeContent() {
 
   function handleDeleteWebsite(id: number) {
     openModal(<DeleteWebsite id={id} fetchData={fetchSites} />, "Delete Website");
+  }
+
+  function handleEditWebsite(id: number, url: string, title: string) {
+    openModal(
+      <EditWebsite fetchData={fetchSites} id={id} pUrl={url} pTitle={title} />,
+      "Edit Website"
+    );
   }
 
   async function fetchSites() {
@@ -61,6 +69,7 @@ function HomeContent() {
             wordpress={site.wordpress}
             fetchData={fetchSites}
             deleteHandler={() => handleDeleteWebsite(site.id)}
+            editHandler={() => handleEditWebsite(site.id, site.url, site.title)}
           />
         ))}
       </main>

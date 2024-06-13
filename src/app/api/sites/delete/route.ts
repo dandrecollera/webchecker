@@ -1,4 +1,3 @@
-import { connect } from 'http2';
 import mysql from 'mysql2/promise';
 import { NextRequest, NextResponse } from 'next/server';
 

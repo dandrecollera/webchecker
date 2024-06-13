@@ -3,13 +3,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { AnimatePresence, easeInOut, motion } from "framer-motion";
 
 export default function DropDown({
-  id,
-  fetchData,
   deleteHandler,
+  editHandler,
 }: {
-  id: number;
-  fetchData: () => void;
   deleteHandler: () => void;
+  editHandler: () => void;
 }) {
   const [dropped, setDropped] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -26,30 +24,10 @@ export default function DropDown({
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropped]);
-
-  async function handleDelete() {
-    if (id) {
-      try {
-        const response = await fetch(`/api/sites/delete`, {
-          method: "DELETE",
-          body: JSON.stringify({ id }),
-        });
-
-        const data = await response.json();
-        console.log(data);
-        if (response.ok) {
-          fetchData();
-        }
-      } catch (error) {
-        console.log(`Error: ${error}`);
-      }
-    }
-  }
 
   return (
     <div ref={dropdownRef}>
@@ -74,6 +52,7 @@ export default function DropDown({
                 whileHover={{ backgroundColor: "rgb(245 245 245)" }}
                 transition={{ ease: "easeIn" }}
                 className="py-2 px-3 border-b rounded-t-2xl"
+                onClick={editHandler}
               >
                 Edit
               </motion.li>

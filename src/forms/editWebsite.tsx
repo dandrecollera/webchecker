@@ -1,28 +1,39 @@
-import { useState } from "react";
 import Input from "@/ui/input";
+import { useState } from "react";
 import { useModal } from "@/context/modalcontext";
 
-export default function AddWebsite({ fetchData }: { fetchData: () => void }) {
-  const [url, setUrl] = useState("");
-  const [title, setTitle] = useState("");
+export default function EditWebsite({
+  fetchData,
+  pTitle,
+  pUrl,
+  id,
+}: {
+  fetchData: () => void;
+  pTitle: string;
+  pUrl: string;
+  id: number;
+}) {
   const [disabled, setDisabled] = useState(false);
+  const [url, setUrl] = useState(pUrl);
+  const [title, setTitle] = useState(pTitle);
 
   const { setLoading, closeModal } = useModal();
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleEdit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (url) {
       setDisabled(true);
       setLoading(true);
       try {
-        const response = await fetch(`/api/screencap`, {
-          method: "POST",
+        const response = await fetch("/api/sites/edit", {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ url, title }),
+          body: JSON.stringify({ id, url, title }),
         });
 
+        const data = await response.json();
         if (response.ok) {
           setTimeout(() => {
             setLoading(false);
@@ -40,7 +51,7 @@ export default function AddWebsite({ fetchData }: { fetchData: () => void }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-y-6">
+      <form onSubmit={handleEdit} className="flex flex-col gap-y-6">
         <Input
           type="text"
           value={title}

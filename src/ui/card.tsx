@@ -11,6 +11,7 @@ export default function Card({
   wordpress,
   fetchData,
   deleteHandler,
+  editHandler,
 }: {
   filename: string;
   title: string;
@@ -19,10 +20,17 @@ export default function Card({
   wordpress: boolean;
   fetchData: () => void;
   deleteHandler: () => void;
+  editHandler: () => void;
 }) {
   return (
     <div className="relative bg-white border rounded-md overflow-hidden shadow-sm">
-      <Image src={`/screencaps/${filename}`} width={600} height={300} alt="test image" />
+      <Image
+        src={`/screencaps/${filename}`}
+        width={600}
+        height={300}
+        alt="test image"
+        className="w-full"
+      />
       <div className="p-3 h-28">
         <h1 className="text-2xl font-bold">{title}</h1>
         <Link href={url} className="text-blue-500" target="_empty">
@@ -44,7 +52,7 @@ export default function Card({
       <div className="bg-green-600 border border-green-600 z-10 p-2 px-3 text-white">Active</div>
       <div className="absolute z-100 right-0 top-0">
         <button className="p-2">
-          <DropDown id={id} fetchData={fetchData} deleteHandler={deleteHandler} />
+          <DropDown deleteHandler={deleteHandler} editHandler={editHandler} />
         </button>
       </div>
     </div>
