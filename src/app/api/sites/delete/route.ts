@@ -20,13 +20,11 @@ export async function DELETE(request: NextRequest) {
 
   try {
     await connection.query(sql);
-    await connection.end();
     return NextResponse.json({ message: `Website Deleted id: ${id}` });
   } catch (error) {
     console.log(error);
-    await connection.end();
     return NextResponse.json({ error: "Failed to delete website" }, { status: 500 })
+  } finally {
+    await connection.end();
   }
-
-
 }
