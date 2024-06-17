@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 interface InputProps {
   type: string;
   value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   required?: boolean;
   placeholder?: string;
   readonly?: boolean;
@@ -29,7 +29,6 @@ export default function Input({
       required={required}
       readOnly={readonly}
       className="rounded-md p-2"
-    >
-    </motion.input>
+    ></motion.input>
   );
 }

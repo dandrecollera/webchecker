@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Input from "@/ui/input";
 import { useModal } from "@/context/modalcontext";
-
+import Button from "@/ui/button";
 export default function AddWebsite({ fetchData }: { fetchData: () => void }) {
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -57,9 +57,14 @@ export default function AddWebsite({ fetchData }: { fetchData: () => void }) {
           required
           readonly={disabled}
         />
-        <button type="submit" disabled={disabled}>
-          Test
-        </button>
+        <center>
+          <Button
+            text="Add Website"
+            styles="bg-blue-600 p-2 text-white"
+            disabled={disabled}
+            type="submit"
+          />
+        </center>
       </form>
     </div>
   );

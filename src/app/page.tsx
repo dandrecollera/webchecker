@@ -8,6 +8,7 @@ import EditWebsite from "@/forms/editWebsite";
 import { useState, useEffect } from "react";
 import { ModalProvider, useModal } from "@/context/modalcontext";
 import { AnimatePresence } from "framer-motion";
+import Header from "@/ui/header";
 
 interface Sites {
   id: number;
@@ -51,40 +52,45 @@ function HomeContent() {
   }, []);
 
   return (
-    <div className="p-4">
-      <button
-        type="button"
-        onClick={handleAddWebsite}
-        className="bg-blue-500 rounded-lg text-white p-2 px-4 mb-2"
-      >
-        Add Website
-      </button>
-      <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
-        <AnimatePresence mode="sync">
-          {sitesURL.map((site) => (
-            <Card
-              key={site.id}
-              id={site.id}
-              filename={site.filename}
-              title={site.title}
-              url={site.url}
-              wordpress={site.wordpress}
-              fetchData={fetchSites}
-              deleteHandler={() => handleDeleteWebsite(site.id)}
-              editHandler={() => handleEditWebsite(site.id, site.url, site.title)}
-            />
-          ))}
-        </AnimatePresence>
-      </main>
-    </div>
+    <>
+      <div className="p-4">
+        <button
+          type="button"
+          onClick={handleAddWebsite}
+          className="bg-blue-500 rounded-lg text-white p-2 px-4 mb-2"
+        >
+          Add Website
+        </button>
+        <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
+          <AnimatePresence mode="sync">
+            {sitesURL.map((site) => (
+              <Card
+                key={site.id}
+                id={site.id}
+                filename={site.filename}
+                title={site.title}
+                url={site.url}
+                wordpress={site.wordpress}
+                fetchData={fetchSites}
+                deleteHandler={() => handleDeleteWebsite(site.id)}
+                editHandler={() => handleEditWebsite(site.id, site.url, site.title)}
+              />
+            ))}
+          </AnimatePresence>
+        </main>
+      </div>
+    </>
   );
 }
 
 export default function Home() {
   return (
-    <ModalProvider>
-      <HomeContent />
-      <Modal />
-    </ModalProvider>
+    <>
+      <Header />
+      <ModalProvider>
+        <HomeContent />
+        <Modal />
+      </ModalProvider>
+    </>
   );
 }

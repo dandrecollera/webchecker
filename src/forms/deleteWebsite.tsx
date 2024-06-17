@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useModal } from "@/context/modalcontext";
+import Button from "@/ui/button";
 
 export default function DeleteWebsite({ id, fetchData }: { id: number; fetchData: () => void }) {
   const { setLoading, closeModal } = useModal();
@@ -35,20 +36,18 @@ export default function DeleteWebsite({ id, fetchData }: { id: number; fetchData
     <div>
       <p>Are you sure you want to delete this website?</p>
       <div className="mt-6 gap-x-3 flex justify-end">
-        <button
-          className="bg-white border p-2 rounded-md px-3 w-28 text-sm "
-          onClick={closeModal}
+        <Button
+          text="Cancel"
+          styles="bg-white border"
+          onClickFunction={closeModal}
           disabled={disabled}
-        >
-          Cancel
-        </button>
-        <button
-          className="bg-red-600 p-2 rounded-md px-3 w-28 text-sm text-white"
-          onClick={handleDelete}
+        />
+        <Button
+          text="Delete"
+          styles="bg-red-600 p-2 text-white"
+          onClickFunction={handleDelete}
           disabled={disabled}
-        >
-          Delete
-        </button>
+        />
       </div>
     </div>
   );

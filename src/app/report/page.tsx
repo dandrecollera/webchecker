@@ -1,9 +1,12 @@
-import Link from "next/link";
+import Header from "@/ui/header";
 
 export default function Home() {
   return (
-    <main>
-      <div>Report</div>
-    </main>
+    <>
+      <Header />
+      <main>
+        <div>Report</div>
+      </main>
+    </>
   );
 }

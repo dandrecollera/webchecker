@@ -1,6 +1,7 @@
 import Input from "@/ui/input";
 import { useState } from "react";
 import { useModal } from "@/context/modalcontext";
+import Button from "@/ui/button";
 
 export default function EditWebsite({
   fetchData,
@@ -68,9 +69,14 @@ export default function EditWebsite({
           required
           readonly={disabled}
         />
-        <button type="submit" disabled={disabled}>
-          Test
-        </button>
+        <center>
+          <Button
+            text="Edit Webiste"
+            styles="bg-green-600 p-2 text-white"
+            disabled={disabled}
+            type="submit"
+          />
+        </center>
       </form>
     </div>
   );
