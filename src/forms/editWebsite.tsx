@@ -33,8 +33,6 @@ export default function EditWebsite({
           },
           body: JSON.stringify({ id, url, title }),
         });
-
-        const data = await response.json();
         if (response.ok) {
           setTimeout(() => {
             setLoading(false);

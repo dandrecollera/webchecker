@@ -28,7 +28,7 @@ export default function Input({
       placeholder={placeholder}
       required={required}
       readOnly={readonly}
-      className="rounded-md p-2"
+      className="rounded-md p-2 w-full"
     ></motion.input>
   );
 }
