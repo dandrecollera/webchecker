@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { ModalProvider, useModal } from "@/context/modalcontext";
 import { AnimatePresence } from "framer-motion";
 import Header from "@/ui/header";
+import SearchInput from "@/ui/searchinput";
 
 interface Sites {
   id: number;
@@ -21,6 +22,7 @@ interface Sites {
 function HomeContent() {
   const [sitesURL, setSitesURL] = useState<Sites[]>([]);
   const { openModal } = useModal();
+  const [search, setSearch] = useState("");
 
   function handleAddWebsite() {
     openModal(<AddWebsite fetchData={fetchSites} />, "Add Website");
@@ -51,19 +53,31 @@ function HomeContent() {
     fetchSites();
   }, []);
 
+  const filteredSites = sitesURL.filter((site) =>
+    site.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <>
       <div className="p-4">
-        <button
-          type="button"
-          onClick={handleAddWebsite}
-          className="bg-blue-500 rounded-lg text-white p-2 px-4 mb-2"
-        >
-          Add Website
-        </button>
+        <div className="flex gap-x-3 w-full mb-6">
+          <button
+            type="button"
+            onClick={handleAddWebsite}
+            className="bg-blue-500 rounded-lg text-white p-2 px-4"
+          >
+            Add Website
+          </button>
+          <SearchInput
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search"
+          />
+        </div>
         <main className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-4">
           <AnimatePresence mode="sync">
-            {sitesURL.map((site) => (
+            {filteredSites.map((site) => (
               <Card
                 key={site.id}
                 id={site.id}
